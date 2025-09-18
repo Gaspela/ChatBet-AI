@@ -1,11 +1,11 @@
 import google.generativeai as genai
 from typing import Dict, Any, List, Optional
 from app.config import settings
-from app.models import ChatMessage, ChatResponse, UserContext
-from app.chatbet_client import ChatBetClient
-from app.data_service import DataService
-from app.prompt_builder import PromptBuilder
-from app.analyzers import APIAnalyzer
+from app.models.schemas import ChatMessage, ChatResponse, UserContext
+from app.services.chatbet_client import ChatBetClient
+from app.services.data_service import DataService
+from app.ai.prompt_builder import PromptBuilder
+from app.ai.analyzers import APIAnalyzer
 import json
 import logging
 from datetime import datetime, timedelta

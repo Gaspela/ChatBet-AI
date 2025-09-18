@@ -38,6 +38,65 @@ ChatBet AI Assistant is a sophisticated chatbot that combines artificial intelli
 - **RESTful API**: Standard HTTP methods and status codes
 - **MVC Pattern**: Clear separation between models, views, and controllers
 
+## Project Architecture
+
+### Folder Structure
+```
+ChatBet-AI/
+├── app/
+│   ├── main.py                    # FastAPI entry point
+│   ├── config.py                  # Application configuration
+│   │
+│   ├── api/                       # API Layer
+│   │   ├── __init__.py
+│   │   └── routes.py             # All API endpoints
+│   │
+│   ├── services/                  # Business Logic Layer
+│   │   ├── __init__.py
+│   │   ├── chatbot_service.py    # Main orchestration service
+│   │   ├── data_service.py       # Data processing & caching
+│   │   └── chatbet_client.py     # External API client
+│   │
+│   ├── ai/                        # AI Processing Layer
+│   │   ├── __init__.py
+│   │   ├── analyzers.py          # Betting analysis engine
+│   │   └── prompt_builder.py     # AI prompt engineering
+│   │
+│   └── models/                    # Data Models Layer
+│       ├── __init__.py
+│       └── schemas.py            # Pydantic data models
+│
+├── web-client/                    # Frontend Interface
+├── docker-compose.yml            # Container orchestration
+├── Dockerfile                    # Backend container config
+└── requirements.txt              # Python dependencies
+```
+
+### Architecture Flow
+```
+HTTP Request → API Layer (routes.py)
+                    ↓
+              Services Layer (chatbot_service.py)
+                    ↓
+            ┌─────────────────────────────────────┐
+            │                                     │
+         AI Layer                          Data Layer
+    (analyzers.py +                   (data_service.py +
+     prompt_builder.py)                chatbet_client.py)
+            │                                     │
+            └─────────────────────────────────────┘
+                    ↓
+              Models Layer (schemas.py)
+                    ↓
+               JSON Response
+```
+
+### Key Components
+- **API Layer**: FastAPI routes and endpoint definitions
+- **Services Layer**: Business logic, orchestration, and external integrations  
+- **AI Layer**: Google Gemini integration, betting analysis, and prompt engineering
+- **Models Layer**: Pydantic models for data validation and serialization
+
 ## Prerequisites
 
 Before setting up the project, ensure you have the following installed:
@@ -358,6 +417,42 @@ docker-compose down --volumes
 docker-compose up --build
 ```
 
+## Changelog & Architecture Updates
+
+### Version 1.1.0 - September 2025
+**🏗️ Major Architecture Restructure**
+
+**New Folder Structure:**
+- Reorganized codebase into layered architecture
+- Separated concerns by responsibility and functionality
+- Improved maintainability and scalability
+
+**Changes Made:**
+- ✅ **API Layer**: Moved all endpoints to `app/api/routes.py`
+- ✅ **Services Layer**: Centralized business logic in `app/services/`
+  - `chatbot_service.py` - Main orchestration
+  - `data_service.py` - Data processing & caching  
+  - `chatbet_client.py` - External API integration
+- ✅ **AI Layer**: AI-specific modules in `app/ai/`
+  - `analyzers.py` - Betting analysis engine
+  - `prompt_builder.py` - Prompt engineering
+- ✅ **Models Layer**: All Pydantic models in `app/models/schemas.py`
+- ✅ **Updated Imports**: All imports updated to reflect new structure
+- ✅ **Documentation**: Comprehensive docstrings added to all modules
+
+**Benefits:**
+- 📦 **Better Organization**: Clear separation of responsibilities
+- 🔧 **Easier Maintenance**: Logical grouping of related functionality  
+- 🚀 **Enhanced Scalability**: Simple to add new features in appropriate layers
+- 🧪 **Improved Testing**: Easier unit testing by layer
+- 📚 **Better Documentation**: Clear module purposes and functionality
+
+**Migration Notes:**
+- All existing functionality preserved
+- API endpoints remain the same
+- Docker configuration unchanged
+- Environment variables unchanged
+
 ## Additional Resources
 
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
@@ -371,6 +466,7 @@ docker-compose up --build
 
 This project is a technical demonstration created for ChatBet assessment purposes.
 
-**Version**: 1.0.0  
+**Version**: 1.1.0  
 **Last Updated**: September 2025  
-**Developed with**: for ChatBet Technical Assessment
+**Architecture**: Layered modular design  
+**Developed for**: ChatBet Technical Assessment

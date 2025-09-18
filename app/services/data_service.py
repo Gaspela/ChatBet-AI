@@ -1,6 +1,6 @@
 from typing import Dict, List, Any, Optional, Tuple
-from app.chatbet_client import ChatBetClient
-from app.models import Sport, Tournament, Fixture, OddsData, UserBalance
+from app.services.chatbet_client import ChatBetClient
+from app.models.schemas import Sport, Tournament, Fixture, OddsData, UserBalance
 import asyncio
 import logging
 from datetime import datetime, timedelta

@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from app.models import UserContext
+from app.models.schemas import UserContext
 from datetime import datetime, timedelta
 
 

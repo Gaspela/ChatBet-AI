@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 import logging
-from .models import UserContext
+from app.models.schemas import UserContext
 
 logger = logging.getLogger(__name__)
 
