@@ -2,6 +2,11 @@
 
 An intelligent conversational AI chatbot designed for sports betting analysis, match recommendations, and interactive sports queries. Built with FastAPI and Google's Gemini AI, this system provides real-time sports data integration with natural language processing capabilities.
 
+## UI
+
+<img width="1914" height="986" alt="image" src="https://github.com/user-attachments/assets/1b8036fb-b074-4fb2-84b3-62037918477e" />
+
+
 ## Project Description
 
 ChatBet AI Assistant is a sophisticated chatbot that combines artificial intelligence with real-time sports data to provide users with:
