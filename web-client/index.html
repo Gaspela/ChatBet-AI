@@ -1,0 +1,529 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBet AI - Frontend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .input-section {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .input-group textarea {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+            max-height: 120px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-width: 120px;
+        }
+
+        .input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .input-group button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .response-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .response-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.3em;
+        }
+
+        .response-content {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e1e5e9;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .brief-response .response-content {
+            background: #e8f5e8;
+            border-color: #c3e6c3;
+        }
+
+        .full-response .response-content {
+            background: #e8f4fd;
+            border-color: #b8daff;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .loading::after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        .error {
+            background: #ffe8e8 !important;
+            border-color: #ffb8b8 !important;
+            color: #d63384;
+        }
+
+        .success {
+            animation: highlight 0.5s ease;
+        }
+
+        @keyframes highlight {
+            0% { background: #d4edda; }
+            100% { background: inherit; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                height: calc(100vh - 20px);
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-group button {
+                margin-top: 10px;
+            }
+        }
+
+        /* Session info */
+        .session-info {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid #e1e5e9;
+        }
+
+        .session-info strong {
+            color: #333;
+        }
+
+        /* Clear button */
+        .clear-btn {
+            background: #6c757d !important;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            background: #5a6268 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 ChatBet AI</h1>
+            <p>Sistema inteligente de consultas deportivas y simulación de apuestas</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="session-info">
+                    <strong>Sesión:</strong> <span id="sessionId">1</span> | 
+                    <strong>Usuario:</strong> <span id="userId">frontend-user</span> | 
+                    <strong>Estado:</strong> <span id="connectionStatus">Conectado</span>
+                </div>
+
+                <div class="input-group">
+                    <textarea 
+                        id="userInput" 
+                        placeholder="Escribe tu pregunta aquí... Ejemplo: '¿Cuándo juega el Barcelona?' o '¿Qué puedo apostar con $100?'"
+                        rows="3"
+                    ></textarea>
+                    <button id="sendBtn" onclick="sendMessage()">Enviar</button>
+                    <button id="clearBtn" class="clear-btn" onclick="clearAll()">Limpiar</button>
+                </div>
+            </div>
+
+            <div class="response-section brief-response">
+                <h3>� Respuesta del ChatBot</h3>
+                <div class="loading" id="briefLoading">Procesando respuesta</div>
+                <div class="response-content" id="briefResponse">
+                    Aquí aparecerá la respuesta del ChatBet AI (solo el campo "response")...
+                </div>
+            </div>
+
+            <div class="response-section full-response">
+                <h3>� Respuesta JSON Completa</h3>
+                <div class="loading" id="fullLoading">Procesando respuesta completa</div>
+                <div class="response-content" id="fullResponse">
+                    Aquí aparecerá la respuesta completa con todos los metadatos (intent, confidence, data, etc.)...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        const API_BASE_URL = 'http://localhost:8000';
+    let sessionId = '1';
+        let userId = 'frontend-user';
+        let messageCount = 0;
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAPIConnection();
+            setupEnterKeyListener();
+        });
+
+        // Verificar conexión con la API
+        async function checkAPIConnection() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                if (response.ok) {
+                    document.getElementById('connectionStatus').textContent = 'Conectado ✅';
+                    document.getElementById('connectionStatus').style.color = '#28a745';
+                } else {
+                    throw new Error('API no responde');
+                }
+            } catch (error) {
+                document.getElementById('connectionStatus').textContent = 'Desconectado ❌';
+                document.getElementById('connectionStatus').style.color = '#dc3545';
+                console.error('Error conectando con API:', error);
+            }
+        }
+
+        // Configurar listener para Enter
+        function setupEnterKeyListener() {
+            document.getElementById('userInput').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+        }
+
+        // Enviar mensaje al ChatBet AI
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (!message) {
+                alert('Por favor, escribe una pregunta antes de enviar.');
+                return;
+            }
+
+            // UI de carga
+            setLoadingState(true);
+            messageCount++;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: sessionId,
+                        user_key: userId
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // Mostrar respuestas
+                displayResponses(message, data);
+                
+                // Limpiar input
+                userInput.value = '';
+                
+            } catch (error) {
+                console.error('Error enviando mensaje:', error);
+                displayError(error.message);
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        // Mostrar respuestas en las secciones
+        function displayResponses(question, data) {
+            const briefResponse = document.getElementById('briefResponse');
+            const fullResponse = document.getElementById('fullResponse');
+
+            // RESPUESTA RESUMIDA: Solo el campo "response"
+            briefResponse.innerHTML = `
+                <div style="background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #28a745;">
+                    <strong>Pregunta:</strong> ${question}
+                </div>
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; white-space: pre-wrap; line-height: 1.6;">
+                    ${formatResponse(data.response)}
+                </div>
+            `;
+            briefResponse.classList.add('success');
+
+            // RESPUESTA COMPLETA: Todo el JSON completo
+            fullResponse.innerHTML = `
+                <div style="background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #007bff;">
+                    <strong>Pregunta #${messageCount}:</strong> ${question}
+                </div>
+                <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; overflow-x: auto; line-height: 1.4;">
+                    <strong style="color: #0066cc;">Respuesta JSON Completa:</strong><br><br>
+                    <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">${formatJSONResponse(data)}</pre>
+                </div>
+                <div style="margin-top: 10px; font-size: 12px; color: #666; padding: 8px; background: #f8f9fa; border-radius: 6px;">
+                    <strong>Metadatos de Sesión:</strong><br>
+                    • Session ID: ${data.session_id || 'N/A'}<br>
+                    • Timestamp: ${new Date().toLocaleString()}<br>
+                    • Message #: ${messageCount}
+                </div>
+            `;
+            fullResponse.classList.add('success');
+
+            // Remover clase de success después de la animación
+            setTimeout(() => {
+                briefResponse.classList.remove('success');
+                fullResponse.classList.remove('success');
+            }, 500);
+        }
+
+        // Formatear respuesta (solo el texto de respuesta)
+        function formatResponse(response) {
+            if (!response) return 'No se recibió respuesta';
+            
+            return response
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/•/g, '•')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Formatear respuesta JSON completa
+        function formatJSONResponse(data) {
+            try {
+                // Crear objeto limpio para mostrar
+                const cleanData = {
+                    response: data.response,
+                    intent: data.intent,
+                    confidence: data.confidence,
+                    data: data.data,
+                    session_id: data.session_id,
+                    metadata: {
+                        timestamp: new Date().toISOString(),
+                        message_number: messageCount
+                    }
+                };
+                
+                return JSON.stringify(cleanData, null, 2);
+            } catch (error) {
+                return `Error formateando JSON: ${error.message}\n\nDatos originales:\n${JSON.stringify(data, null, 2)}`;
+            }
+        }
+
+        // Mostrar error
+        function displayError(errorMessage) {
+            const briefResponse = document.getElementById('briefResponse');
+            const fullResponse = document.getElementById('fullResponse');
+
+            const briefErrorHtml = `
+                <div style="color: #d63384; padding: 15px; text-align: center;">
+                    <strong>❌ Error de Conexión</strong><br>
+                    ${errorMessage}<br>
+                    <em>Verifica que el servidor ChatBet AI esté funcionando en ${API_BASE_URL}</em>
+                </div>
+            `;
+
+            const fullErrorHtml = `
+                <div style="color: #d63384; padding: 15px; text-align: center; font-family: 'Courier New', monospace;">
+                    <strong>❌ Error Técnico Completo</strong><br><br>
+                    <pre style="color: #d63384; margin: 0; text-align: left; background: #ffe8e8; padding: 10px; border-radius: 5px;">{
+  "error": "${errorMessage}",
+  "endpoint": "${API_BASE_URL}/chat",
+  "timestamp": "${new Date().toISOString()}",
+  "session_id": "${sessionId}",
+  "user_id": "${userId}",
+  "status": "connection_failed"
+}</pre>
+                    <br><em>Verifica que el backend esté ejecutándose con: docker-compose up -d</em>
+                </div>
+            `;
+
+            briefResponse.innerHTML = briefErrorHtml;
+            fullResponse.innerHTML = fullErrorHtml;
+            
+            briefResponse.classList.add('error');
+            fullResponse.classList.add('error');
+        }
+
+        // Estado de carga
+        function setLoadingState(loading) {
+            const sendBtn = document.getElementById('sendBtn');
+            const briefLoading = document.getElementById('briefLoading');
+            const fullLoading = document.getElementById('fullLoading');
+            const briefResponse = document.getElementById('briefResponse');
+            const fullResponse = document.getElementById('fullResponse');
+
+            if (loading) {
+                sendBtn.disabled = true;
+                sendBtn.textContent = 'Enviando...';
+                briefLoading.style.display = 'block';
+                fullLoading.style.display = 'block';
+                briefResponse.style.display = 'none';
+                fullResponse.style.display = 'none';
+            } else {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Enviar';
+                briefLoading.style.display = 'none';
+                fullLoading.style.display = 'none';
+                briefResponse.style.display = 'block';
+                fullResponse.style.display = 'block';
+            }
+        }
+
+        // Limpiar todo
+        function clearAll() {
+            document.getElementById('userInput').value = '';
+            document.getElementById('briefResponse').innerHTML = 'Aquí aparecerá la respuesta del ChatBet AI (solo el campo "response")...';
+            document.getElementById('fullResponse').innerHTML = 'Aquí aparecerá la respuesta completa con todos los metadatos (intent, confidence, data, etc.)...';
+            
+            // Remover clases de error
+            document.getElementById('briefResponse').classList.remove('error');
+            document.getElementById('fullResponse').classList.remove('error');
+            
+            messageCount = 0;
+            console.log('Frontend limpiado');
+        }
+
+        // Función de utilidad para debug
+        function debugInfo() {
+            console.log('=== ChatBet AI Frontend Debug ===');
+            console.log('API Base URL:', API_BASE_URL);
+            console.log('Session ID:', sessionId);
+            console.log('User ID:', userId);
+            console.log('Message Count:', messageCount);
+            console.log('================================');
+        }
+    </script>
+</body>
+</html>
