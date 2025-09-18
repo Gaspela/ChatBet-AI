@@ -7,6 +7,23 @@ from app.chatbot_service import ChatBotService
 import logging
 import json
 
+"""
+ChatBet AI Assistant - FastAPI Application
+
+Main application module for ChatBet AI, an intelligent conversational chatbot 
+for sports betting analysis and recommendations.
+
+Features:
+- RESTful API endpoints for chat interactions
+- Real-time sports data integration with ChatBet API
+- AI-powered responses using Google Gemini
+- Conversation context management
+- CORS-enabled for web client integration
+- Health monitoring and status endpoints
+- Session-based user interactions
+- JSON response formatting with UTF-8 support
+"""
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

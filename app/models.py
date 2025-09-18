@@ -2,6 +2,27 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
 from datetime import datetime
 
+"""
+ChatBet AI Models - Pydantic Data Models
+
+Data models and structures for ChatBet AI Assistant application.
+All models use Pydantic for automatic validation, serialization, and type safety.
+
+Model Categories:
+- Chat & Communication: ChatMessage, ChatResponse for API interactions
+- User Management: UserContext for session and conversation state
+- Betting Operations: SimulatedBet, BetSimulation, BetResult for bet tracking
+- Sports Data: SportEvent, OddsInfo, Sport, Tournament, Fixture for API data
+- Financial: UserBalance for account management
+- API Integration: OddsData for external API responses
+
+Features:
+- Type validation with Pydantic BaseModel
+- Optional fields with default values
+- DateTime handling for timestamps
+- Nested dictionaries for complex data structures
+- List typing for collections
+"""
 
 class ChatMessage(BaseModel):
     message: str

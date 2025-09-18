@@ -5,6 +5,19 @@ from .models import UserContext
 logger = logging.getLogger(__name__)
 
 class APIAnalyzer:
+    """
+    API analyzer for intelligent sports betting data processing and analysis.
+    
+    Features:
+    - Betting recommendations based on odds analysis
+    - Match competitiveness evaluation
+    - Bet simulation with profit calculations
+    - Team favorite comparison analysis
+    - Real-time odds processing and filtering
+    - Integration with ChatBet API through data service
+    - Context-aware response generation
+    """
+    
     def __init__(self, data_service, ensure_auth_callback):
         self.data_service = data_service
         self.ensure_auth_callback = ensure_auth_callback
