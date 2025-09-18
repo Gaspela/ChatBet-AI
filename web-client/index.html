@@ -1,9 +1,20 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatBet AI - Frontend</title>
+    <title>ChatBet AI</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         * {
             margin: 0;
@@ -12,325 +23,471 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
             min-height: 100vh;
-            padding: 20px;
+            overflow: hidden;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-            height: calc(100vh - 40px);
-        }
-
-        .header {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.1em;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-            height: 100%;
-        }
-
-        .input-section {
-            grid-column: 1 / -1;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .input-group {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .input-group textarea {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 60px;
-            max-height: 120px;
-            transition: border-color 0.3s ease;
-        }
-
-        .input-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .input-group button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            min-width: 120px;
-        }
-
-        .input-group button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .input-group button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .response-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .dashboard-container {
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .response-section h3 {
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-            font-size: 1.3em;
+        /* Override Bootstrap form-control for dark theme */
+        .form-control {
+            background-color: rgba(51, 65, 85, 0.5) !important;
+            border-color: #475569 !important;
+            color: #e2e8f0 !important;
         }
 
-        .response-content {
+        .form-control:focus {
+            background-color: rgba(51, 65, 85, 0.7) !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+            color: #e2e8f0 !important;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        /* Bootstrap button overrides */
+        .btn-outline-light {
+            border-color: #475569;
+        }
+
+        .btn-outline-light:hover {
+            background-color: #475569;
+            border-color: #64748b;
+        }
+
+        /* MAIN DASHBOARD */
+        .main-dashboard {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #334155;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 0.25rem;
+        }
+
+        .top-bar-left p {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #10b981;
+        }
+
+        .live-time {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
+            color: #3b82f6;
+        }
+
+        /* CHAT SECTION */
+        .chat-section {
             flex: 1;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e1e5e9;
+            display: flex;
+            flex-direction: column;
+            padding: 0 2rem 1rem 2rem;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 1rem;
+        }
+
+        .chat-area {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 1.5rem;
             overflow-y: auto;
-            font-size: 14px;
-            line-height: 1.6;
         }
 
-        .brief-response .response-content {
-            background: #e8f5e8;
-            border-color: #c3e6c3;
-        }
-
-        .full-response .response-content {
-            background: #e8f4fd;
-            border-color: #b8daff;
-        }
-
-        .loading {
-            display: none;
+        .welcome-message {
             text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 20px;
+            padding: 2rem;
+            color: #94a3b8;
         }
 
-        .loading::after {
-            content: '';
-            animation: dots 1.5s steps(5, end) infinite;
+        .message {
+            display: flex;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60% { content: '...'; }
-            80%, 100% { content: ''; }
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
         }
 
-        .error {
-            background: #ffe8e8 !important;
-            border-color: #ffb8b8 !important;
-            color: #d63384;
+        .user-avatar {
+            background: linear-gradient(45deg, #10b981, #059669);
         }
 
-        .success {
-            animation: highlight 0.5s ease;
+        .bot-avatar {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
         }
 
-        @keyframes highlight {
-            0% { background: #d4edda; }
-            100% { background: inherit; }
+        .message-content {
+            flex: 1;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-                height: calc(100vh - 20px);
-            }
-
-            .main-content {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto 1fr;
-            }
-
-            .header h1 {
-                font-size: 2em;
-            }
-
-            .input-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .input-group button {
-                margin-top: 10px;
-            }
+        .message-bubble {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
         }
 
-        /* Session info */
-        .session-info {
-            background: #f8f9fa;
-            padding: 10px 15px;
+        .user-bubble {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            margin-left: auto;
+            max-width: 80%;
+        }
+
+        .bot-bubble {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #e2e8f0;
+            max-width: 90%;
+        }
+
+        .bot-bubble.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-left: 1rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        /* INPUT SECTION */
+        .input-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 0 2rem 2rem;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .input-field {
+            flex: 1;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid #475569;
             border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 12px;
-            color: #666;
-            border: 1px solid #e1e5e9;
+            padding: 0.75rem;
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            resize: vertical;
+            min-height: 80px;
+            max-height: 200px;
         }
 
-        .session-info strong {
-            color: #333;
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        /* Clear button */
-        .clear-btn {
-            background: #6c757d !important;
-            margin-left: 10px;
+        .input-buttons {
+            display: flex;
+            gap: 0.5rem;
         }
 
-        .clear-btn:hover {
-            background: #5a6268 !important;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #2563eb, #1d4ed8);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(71, 85, 105, 0.5);
+            color: #cbd5e1;
+            border: 1px solid #475569;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(71, 85, 105, 0.8);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* SCROLLBAR */
+        .chat-history::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-history::-webkit-scrollbar-track {
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 3px;
+        }
+
+        .chat-history::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 3px;
+        }
+
+        .chat-history::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🤖 ChatBet AI</h1>
-            <p>Sistema inteligente de consultas deportivas y simulación de apuestas</p>
-        </div>
+    <div class="dashboard-container">
+        <!-- MAIN DASHBOARD -->
+        <div class="main-dashboard">
+            <!-- TOP BAR -->
+            <div class="top-bar d-flex justify-content-between align-items-center">
+                <div class="top-bar-left">
+                    <h1 class="mb-1">ChatBet AI</h1>
+                    <p class="mb-0">Intelligent Analysis System</p>
+                </div>
+                <div class="top-bar-right d-flex align-items-center">
+                    <div class="status-indicator me-4">
+                        <span class="badge bg-success rounded-pill me-2">●</span>
+                        <span id="connectionStatus">System Online</span>
+                    </div>
+                    <div class="live-time" id="liveTime">--:--:--</div>
+                </div>
+            </div>
 
-        <div class="main-content">
+            <!-- CHAT SECTION -->
+            <div class="chat-section">
+                <div class="chat-header border-bottom">
+
+                </div>
+                
+                <div class="chat-area">
+                    <div id="chatHistory" class="chat-history">
+                        <div class="welcome-message text-center">
+                            <div class="d-flex justify-content-center mb-4">
+                                <div class="rounded-circle bg-gradient d-flex align-items-center justify-content-center" 
+                                     style="width: 60px; height: 60px; background: linear-gradient(45deg, #3b82f6, #8b5cf6);">
+                                    <i class="fas fa-robot text-white fs-4"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-white mb-3">ChatBet AI</h3>
+                            <p class="text-muted mb-4">Intelligent Sports Analysis System</p>
+                            <div class="row g-3 justify-content-center mb-4">
+                                <div class="col-auto">
+                                    <div class="card bg-dark text-light border-secondary">
+                                        <div class="card-body text-center py-2">
+                                            <i class="fas fa-brain text-primary mb-2"></i>
+                                            <small class="d-block">Advanced AI</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="card bg-dark text-light border-secondary">
+                                        <div class="card-body text-center py-2">
+                                            <i class="fas fa-shield-alt text-success mb-2"></i>
+                                            <small class="d-block">Secure System</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted small">Type your query to start the analysis...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INPUT SECTION -->
             <div class="input-section">
-                <div class="session-info">
-                    <strong>Sesión:</strong> <span id="sessionId">1</span> | 
-                    <strong>Usuario:</strong> <span id="userId">frontend-user</span> | 
-                    <strong>Estado:</strong> <span id="connectionStatus">Conectado</span>
-                </div>
-
-                <div class="input-group">
-                    <textarea 
-                        id="userInput" 
-                        placeholder="Escribe tu pregunta aquí... Ejemplo: '¿Cuándo juega el Barcelona?' o '¿Qué puedo apostar con $100?'"
-                        rows="3"
-                    ></textarea>
-                    <button id="sendBtn" onclick="sendMessage()">Enviar</button>
-                    <button id="clearBtn" class="clear-btn" onclick="clearAll()">Limpiar</button>
-                </div>
-            </div>
-
-            <div class="response-section brief-response">
-                <h3>� Respuesta del ChatBot</h3>
-                <div class="loading" id="briefLoading">Procesando respuesta</div>
-                <div class="response-content" id="briefResponse">
-                    Aquí aparecerá la respuesta del ChatBet AI (solo el campo "response")...
-                </div>
-            </div>
-
-            <div class="response-section full-response">
-                <h3>� Respuesta JSON Completa</h3>
-                <div class="loading" id="fullLoading">Procesando respuesta completa</div>
-                <div class="response-content" id="fullResponse">
-                    Aquí aparecerá la respuesta completa con todos los metadatos (intent, confidence, data, etc.)...
+                <div class="row g-3 align-items-end">
+                    <div class="col">
+                        <textarea 
+                            id="userInput" 
+                            class="form-control input-field" 
+                            placeholder="Type your question here..."
+                            rows="3"
+                            style="resize: vertical;"
+                        ></textarea>
+                    </div>
+                    <div class="col-auto">
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-outline-light btn-sm" onclick="clearAll()">
+                                <i class="fas fa-trash me-1"></i>
+                                Clear
+                            </button>
+                            <button class="btn btn-primary" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane me-1"></i>
+                                Send
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Variables globales
+        // Global variables
         const API_BASE_URL = 'http://localhost:8000';
-    let sessionId = '1';
-        let userId = 'frontend-user';
+        let sessionId = '1';
+        let userId = 'dashboard-user';
         let messageCount = 0;
 
-        // Inicialización
+        // Initialization
         document.addEventListener('DOMContentLoaded', function() {
             checkAPIConnection();
             setupEnterKeyListener();
+            startLiveClock();
         });
+        
+        // Real-time clock
+        function startLiveClock() {
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                document.getElementById('liveTime').textContent = timeString;
+            }
+            
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
 
-        // Verificar conexión con la API
+        // Verify API connection
         async function checkAPIConnection() {
             try {
                 const response = await fetch(`${API_BASE_URL}/health`);
                 if (response.ok) {
-                    document.getElementById('connectionStatus').textContent = 'Conectado ✅';
-                    document.getElementById('connectionStatus').style.color = '#28a745';
+                    document.getElementById('connectionStatus').textContent = 'System Online';
+                    document.getElementById('connectionStatus').style.color = '#10b981';
                 } else {
-                    throw new Error('API no responde');
+                    throw new Error('API not responding');
                 }
             } catch (error) {
-                document.getElementById('connectionStatus').textContent = 'Desconectado ❌';
-                document.getElementById('connectionStatus').style.color = '#dc3545';
-                console.error('Error conectando con API:', error);
+                document.getElementById('connectionStatus').textContent = 'System Offline';
+                document.getElementById('connectionStatus').style.color = '#ef4444';
+                console.error('Error connecting to API:', error);
             }
         }
 
-        // Configurar listener para Enter
-        function setupEnterKeyListener() {
-            document.getElementById('userInput').addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    sendMessage();
-                }
-            });
-        }
-
-        // Enviar mensaje al ChatBet AI
+        // Send message
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
+            const chatHistory = document.getElementById('chatHistory');
             const message = userInput.value.trim();
             
             if (!message) {
-                alert('Por favor, escribe una pregunta antes de enviar.');
+                showNotification('Please write a question before sending.', 'warning');
                 return;
             }
 
-            // UI de carga
-            setLoadingState(true);
+            // Add user message
+            addMessageToChat('user', message);
+            
+            // Clear input
+            userInput.value = '';
+            
+            // Show loading indicator
+            const loadingId = addMessageToChat('bot', '', true);
+            
             messageCount++;
 
             try {
@@ -352,178 +509,231 @@
 
                 const data = await response.json();
                 
-                // Mostrar respuestas
-                displayResponses(message, data);
-                
-                // Limpiar input
-                userInput.value = '';
+                // Replace loading message with response
+                updateMessageInChat(loadingId, data.response);
                 
             } catch (error) {
-                console.error('Error enviando mensaje:', error);
-                displayError(error.message);
-            } finally {
-                setLoadingState(false);
+                console.error('Error sending message:', error);
+                updateMessageInChat(loadingId, 'Error: ' + error.message, true);
+                showNotification('Error sending message', 'error');
             }
         }
 
-        // Mostrar respuestas en las secciones
-        function displayResponses(question, data) {
-            const briefResponse = document.getElementById('briefResponse');
-            const fullResponse = document.getElementById('fullResponse');
-
-            // RESPUESTA RESUMIDA: Solo el campo "response"
-            briefResponse.innerHTML = `
-                <div style="background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #28a745;">
-                    <strong>Pregunta:</strong> ${question}
-                </div>
-                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; white-space: pre-wrap; line-height: 1.6;">
-                    ${formatResponse(data.response)}
-                </div>
-            `;
-            briefResponse.classList.add('success');
-
-            // RESPUESTA COMPLETA: Todo el JSON completo
-            fullResponse.innerHTML = `
-                <div style="background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #007bff;">
-                    <strong>Pregunta #${messageCount}:</strong> ${question}
-                </div>
-                <div style="background: #e8f4fd; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; overflow-x: auto; line-height: 1.4;">
-                    <strong style="color: #0066cc;">Respuesta JSON Completa:</strong><br><br>
-                    <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">${formatJSONResponse(data)}</pre>
-                </div>
-                <div style="margin-top: 10px; font-size: 12px; color: #666; padding: 8px; background: #f8f9fa; border-radius: 6px;">
-                    <strong>Metadatos de Sesión:</strong><br>
-                    • Session ID: ${data.session_id || 'N/A'}<br>
-                    • Timestamp: ${new Date().toLocaleString()}<br>
-                    • Message #: ${messageCount}
-                </div>
-            `;
-            fullResponse.classList.add('success');
-
-            // Remover clase de success después de la animación
-            setTimeout(() => {
-                briefResponse.classList.remove('success');
-                fullResponse.classList.remove('success');
-            }, 500);
-        }
-
-        // Formatear respuesta (solo el texto de respuesta)
-        function formatResponse(response) {
-            if (!response) return 'No se recibió respuesta';
+        // Add message to chat
+        function addMessageToChat(sender, message, isLoading = false) {
+            const chatHistory = document.getElementById('chatHistory');
+            const messageId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
             
-            return response
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/•/g, '•')
-                .replace(/\n\n/g, '<br><br>')
-                .replace(/\n/g, '<br>');
-        }
-
-        // Formatear respuesta JSON completa
-        function formatJSONResponse(data) {
-            try {
-                // Crear objeto limpio para mostrar
-                const cleanData = {
-                    response: data.response,
-                    intent: data.intent,
-                    confidence: data.confidence,
-                    data: data.data,
-                    session_id: data.session_id,
-                    metadata: {
-                        timestamp: new Date().toISOString(),
-                        message_number: messageCount
-                    }
-                };
-                
-                return JSON.stringify(cleanData, null, 2);
-            } catch (error) {
-                return `Error formateando JSON: ${error.message}\n\nDatos originales:\n${JSON.stringify(data, null, 2)}`;
-            }
-        }
-
-        // Mostrar error
-        function displayError(errorMessage) {
-            const briefResponse = document.getElementById('briefResponse');
-            const fullResponse = document.getElementById('fullResponse');
-
-            const briefErrorHtml = `
-                <div style="color: #d63384; padding: 15px; text-align: center;">
-                    <strong>❌ Error de Conexión</strong><br>
-                    ${errorMessage}<br>
-                    <em>Verifica que el servidor ChatBet AI esté funcionando en ${API_BASE_URL}</em>
-                </div>
-            `;
-
-            const fullErrorHtml = `
-                <div style="color: #d63384; padding: 15px; text-align: center; font-family: 'Courier New', monospace;">
-                    <strong>❌ Error Técnico Completo</strong><br><br>
-                    <pre style="color: #d63384; margin: 0; text-align: left; background: #ffe8e8; padding: 10px; border-radius: 5px;">{
-  "error": "${errorMessage}",
-  "endpoint": "${API_BASE_URL}/chat",
-  "timestamp": "${new Date().toISOString()}",
-  "session_id": "${sessionId}",
-  "user_id": "${userId}",
-  "status": "connection_failed"
-}</pre>
-                    <br><em>Verifica que el backend esté ejecutándose con: docker-compose up -d</em>
-                </div>
-            `;
-
-            briefResponse.innerHTML = briefErrorHtml;
-            fullResponse.innerHTML = fullErrorHtml;
+            let messageHTML = '';
             
-            briefResponse.classList.add('error');
-            fullResponse.classList.add('error');
-        }
-
-        // Estado de carga
-        function setLoadingState(loading) {
-            const sendBtn = document.getElementById('sendBtn');
-            const briefLoading = document.getElementById('briefLoading');
-            const fullLoading = document.getElementById('fullLoading');
-            const briefResponse = document.getElementById('briefResponse');
-            const fullResponse = document.getElementById('fullResponse');
-
-            if (loading) {
-                sendBtn.disabled = true;
-                sendBtn.textContent = 'Enviando...';
-                briefLoading.style.display = 'block';
-                fullLoading.style.display = 'block';
-                briefResponse.style.display = 'none';
-                fullResponse.style.display = 'none';
+            if (sender === 'user') {
+                messageHTML = `
+                    <div id="${messageId}" class="message user-message">
+                        <div class="message-avatar user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble user-bubble">
+                                ${message}
+                            </div>
+                            <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                `;
             } else {
-                sendBtn.disabled = false;
-                sendBtn.textContent = 'Enviar';
-                briefLoading.style.display = 'none';
-                fullLoading.style.display = 'none';
-                briefResponse.style.display = 'block';
-                fullResponse.style.display = 'block';
+                if (isLoading) {
+                    messageHTML = `
+                        <div id="${messageId}" class="message bot-message">
+                            <div class="message-avatar bot-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-bubble bot-bubble">
+                                    <div class="typing-indicator">
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                        <div class="typing-dot"></div>
+                                    </div>
+                                    <span class="ml-2 text-gray-400">ChatBet AI is thinking...</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    messageHTML = `
+                        <div id="${messageId}" class="message bot-message">
+                            <div class="message-avatar bot-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-bubble bot-bubble">
+                                    ${formatResponse(message)}
+                                </div>
+                                <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            chatHistory.innerHTML += messageHTML;
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            
+            return messageId;
+        }
+
+        // Update message in chat
+        function updateMessageInChat(messageId, content, isError = false) {
+            const messageElement = document.getElementById(messageId);
+            if (messageElement) {
+                const bubbleClass = isError ? 'bot-bubble error' : 'bot-bubble';
+                messageElement.innerHTML = `
+                    <div class="message-avatar bot-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-bubble ${bubbleClass}">
+                            ${formatResponse(content)}
+                        </div>
+                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                `;
             }
         }
 
-        // Limpiar todo
+        // Clear chat
         function clearAll() {
-            document.getElementById('userInput').value = '';
-            document.getElementById('briefResponse').innerHTML = 'Aquí aparecerá la respuesta del ChatBet AI (solo el campo "response")...';
-            document.getElementById('fullResponse').innerHTML = 'Aquí aparecerá la respuesta completa con todos los metadatos (intent, confidence, data, etc.)...';
+            const chatHistory = document.getElementById('chatHistory');
+            const userInput = document.getElementById('userInput');
             
-            // Remover clases de error
-            document.getElementById('briefResponse').classList.remove('error');
-            document.getElementById('fullResponse').classList.remove('error');
+            if (chatHistory) {
+                chatHistory.innerHTML = `
+                    <div class="welcome-message text-center">
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="rounded-circle bg-gradient d-flex align-items-center justify-content-center" 
+                                 style="width: 60px; height: 60px; background: linear-gradient(45deg, #3b82f6, #8b5cf6);">
+                                <i class="fas fa-robot text-white fs-4"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-white mb-3">ChatBet AI</h3>
+                        <p class="text-muted mb-4">Intelligent Sports Analysis System</p>
+                        <div class="row g-3 justify-content-center mb-4">
+                            <div class="col-auto">
+                                <div class="card bg-dark text-light border-secondary">
+                                    <div class="card-body text-center py-2">
+                                        <i class="fas fa-brain text-primary mb-2"></i>
+                                        <small class="d-block">Advanced AI</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="card bg-dark text-light border-secondary">
+                                    <div class="card-body text-center py-2">
+                                        <i class="fas fa-shield-alt text-success mb-2"></i>
+                                        <small class="d-block">Secure System</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Type your query to start the analysis...</p>
+                    </div>
+                `;
+            }
+            
+            if (userInput) {
+                userInput.value = '';
+            }
             
             messageCount = 0;
-            console.log('Frontend limpiado');
+            showNotification('Chat cleared successfully', 'success');
+            console.log('Chat cleared');
         }
 
-        // Función de utilidad para debug
+        // Show notifications using Bootstrap Toast
+        function showNotification(message, type = 'info') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '1055';
+                document.body.appendChild(toastContainer);
+            }
+            
+            const toastId = 'toast-' + Date.now();
+            const iconClass = type === 'error' ? 'exclamation-triangle' : 
+                            type === 'warning' ? 'exclamation-circle' : 
+                            type === 'success' ? 'check-circle' : 'info-circle';
+            
+            const bgClass = type === 'error' ? 'bg-danger' : 
+                          type === 'warning' ? 'bg-warning' : 
+                          type === 'success' ? 'bg-success' : 'bg-primary';
+            
+            const toastHTML = `
+                <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fas fa-${iconClass} me-2"></i>
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+            toast.show();
+            
+            // Remove element after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
+            });
+        }
+
+        // Format response for display
+        function formatResponse(response) {
+            if (!response) return '';
+            
+            // Convert line breaks to HTML
+            return response
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        }
+
+        // Set up Enter key listener
+        function setupEnterKeyListener() {
+            const userInput = document.getElementById('userInput');
+            if (userInput) {
+                userInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+            }
+        }
+
+        // Debug utility function
         function debugInfo() {
-            console.log('=== ChatBet AI Frontend Debug ===');
+            console.log('=== ChatBet AI Dashboard Debug ===');
             console.log('API Base URL:', API_BASE_URL);
             console.log('Session ID:', sessionId);
             console.log('User ID:', userId);
             console.log('Message Count:', messageCount);
+            console.log('Elements:', {
+                chatHistory: !!document.getElementById('chatHistory'),
+                userInput: !!document.getElementById('userInput')
+            });
             console.log('================================');
         }
     </script>
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

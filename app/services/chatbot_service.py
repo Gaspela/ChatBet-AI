@@ -151,16 +151,18 @@ class ChatBotService:
                             recommendations_prompt += f"""
                             
                             INSTRUCTIONS:
-                            - Present the BEST betting recommendation based on odds analysis
-                            - Explain the bet type (Safe Bet/Value Bet/Risk Reward)
-                            - Mention the specific odds and why it's a good option
-                            - Include 1-2 additional alternatives
-                            - ALWAYS mention these are SIMULATED bets
-                            - Warn about betting risks
-                            - Respond in English informatively but responsibly
-                            - Maximum 5-6 sentences
+                            - Respond in English with a super friendly and enthusiastic tone, like an expert buddy
+                            - Start with something like "Hey! I've got the perfect recommendation for you" or "Check out what I found!"
+                            - Present the BEST bet with excitement: "This match is awesome!" or "What a game!"
+                            - Explain the bet type in casual language: "safe bet", "value play", "interesting risk"
+                            - Mention the specific odds with enthusiasm: "Wow, those odds look great!"
+                            - Include 1-2 alternatives with phrases like "If you're feeling adventurous..." or "By the way, you also have..."
+                            - ALWAYS mention these are SIMULATED bets but in a fun way: "We're simulating the play!" or "Playing with virtual money!"
+                            - Give a responsible gambling reminder but keep the positive vibe
+                            - Maximum 5-6 sentences, full of energy
+                            - End with something like "What do you think?" or "Let me know your thoughts!"
                             
-                            Respond ONLY with the final response text, without JSON format.
+                            Respond ONLY with the final text, no JSON format.
                             """
                             enhanced_response = await self.model.generate_content_async(recommendations_prompt)
                             response_data["response"] = enhanced_response.text
@@ -183,15 +185,17 @@ class ChatBotService:
                             simulation_prompt += f"""
                             
                             INSTRUCTIONS:
-                            - Explain available betting options with ${bet_amount}
-                            - Mention potential profits for each option
-                            - Highlight the best options (higher profit vs risk)
-                            - ALWAYS emphasize these are simulations, NOT real bets
-                            - Include responsible gambling warning
-                            - Respond in English clearly and educationally
-                            - Maximum 6-8 sentences
+                            - Respond in English with tons of excitement, like a buddy who loves betting
+                            - Start with something like "Hey! With ${bet_amount} you've got some awesome options" or "That's a great amount to play with!"
+                            - Explain the available options with enthusiasm: "Check out these spectacular plays"
+                            - Mention the potential profits with excitement: "You could win up to $X!" or "Wow, that profit looks amazing!"
+                            - Highlight the best options: "My favorite is this one", "If it were me, I'd go for..."
+                            - ALWAYS emphasize these are simulations in a fun way: "We're playing with Monopoly money!" or "Just for fun, but how exciting!"
+                            - Include a responsible gambling reminder but keep the positive energy
+                            - Maximum 6-8 sentences, full of energy
+                            - End by asking their opinion: "Which one catches your eye?" or "Which would you go for?"
                             
-                            Respond ONLY with the final response text, without JSON format.
+                            Respond ONLY with the final text, no JSON format.
                             """
                             enhanced_response = await self.model.generate_content_async(simulation_prompt)
                             response_data["response"] = enhanced_response.text
@@ -222,14 +226,17 @@ class ChatBotService:
                             competitive_prompt += f"""
                             
                             INSTRUCTIONS:
-                            - Identify the MOST COMPETITIVE match (highest competitiveness score)
-                            - Mention the teams, main odds of the most competitive match
-                            - Explain why it's the most competitive (balanced odds)
-                            - Briefly mention 1-2 other competitive matches
-                            - Respond in English clearly and informatively
-                            - Maximum 4-5 sentences
+                            - Respond in English with tons of excitement, like a passionate sports fan
+                            - Start with something like "Wow! I've got the most balanced match for you" or "Wait till you see this, it's going to be epic!"
+                            - Highlight the MOST COMPETITIVE match with enthusiasm: "This game is going to be a nail-biter!"
+                            - Mention the teams and main odds with excitement: "The odds are super close!"
+                            - Explain why it's competitive in an exciting way: "It's so evenly matched that anything could happen!"
+                            - Briefly mention 1-2 other competitive matches: "And if that's not enough, check out these too..."
+                            - Use sporty language: "thriller", "super close", "edge-of-your-seat", "intense"
+                            - Maximum 4-5 sentences, packed with energy
+                            - End with anticipation: "Get ready for a show!" or "This is going to be epic!"
                             
-                            Respond ONLY with the final response text, without JSON format.
+                            Respond ONLY with the final text, no JSON format.
                             """
                             enhanced_response = await self.model.generate_content_async(competitive_prompt)
                             response_data["response"] = enhanced_response.text
@@ -256,14 +263,18 @@ class ChatBotService:
                         comparison_prompt += f"""
                         
                         INSTRUCTIONS:
-                        - Identify which team has the LOWEST odds (is the favorite)
-                        - Respond DIRECTLY and CONCISELY
-                        - Mention the specific odds for each team
-                        - Explain that lower odds indicate higher probability of victory
-                        - Respond in English, maximum 2-3 sentences
-                        - DO NOT mention fixture details or dates
+                        - Respond in English with a super friendly and enthusiastic tone, like an expert buddy
+                        - Start with excitement: "Hey! I checked the odds and here's what I found" or "Wow, this is interesting!"
+                        - DIRECTLY identify which team has the LOWEST odds (the favorite)
+                        - Mention the specific odds with excitement: "Check out these odds!"
+                        - Explain simply that lower odds = higher probability
+                        - Use energetic language: "clear favorite", "the bookmakers are sure", "no doubt about it"
+                        - Add emotional context: "It's super obvious!" or "The odds don't lie!"
+                        - Maximum 2-3 sentences, full of energy
+                        - DO NOT mention date details
+                        - End with confidence: "There's your answer!" or "Crystal clear!"
                         
-                        Respond ONLY with the final response text, without JSON format.
+                        Respond ONLY with the final text, no JSON format.
                         """
                         enhanced_response = await self.model.generate_content_async(comparison_prompt)
                         response_data["response"] = enhanced_response.text
@@ -276,15 +287,17 @@ class ChatBotService:
                         USER'S ORIGINAL MESSAGE: {message.message}
                         
                         INSTRUCTIONS:
-                        - Use ONLY the real data provided above
-                        - Respond naturally and conversationally in English
-                        - If fixtures, mention specific teams, dates and tournaments
-                        - If odds, mention exact values
-                        - If balance, mention the exact available amount
-                        - For bet simulations, calculate potential profits
-                        - ALWAYS clarify that bets are SIMULATED
+                        - Hey! Use ONLY the real data provided above 
+                        - Respond in a super natural and friendly way in English, like a buddy who's passionate about betting
+                        - If it's about matches, mention specific teams, dates, and tournaments with excitement 
+                        - If it's about odds, mention the exact values with enthusiasm 
+                        - If it's about balance, mention the exact available amount with energy 
+                        - For bet simulations, calculate potential winnings and get excited 
+                        - ALWAYS clarify that the bets are SIMULATED but do it in a fun, positive way 
+                        - Use expressions like: "Hey!", "Check this out!", "Awesome!", "That's fire!", "So cool!", "This is wild!"
                         
-                        Respond ONLY with the final response text, without JSON format.
+                        
+                        Respond ONLY with the final friendly text, no JSON format.
                         """
                         
                         enhanced_response = await self.model.generate_content_async(enhanced_prompt)
@@ -296,7 +309,7 @@ class ChatBotService:
             self._update_user_context(context, message.message, response_data)
             
             return ChatResponse(
-                response=response_data.get("response", "Sorry, I couldn't process your message."),
+                response=response_data.get("response", "Oops! I couldn't process your message. Want to try again? I'm here to help!"),
                 intent=response_data.get("intent"),
                 confidence=response_data.get("confidence", 0.8),
                 data=response_data.get("data")
@@ -305,7 +318,7 @@ class ChatBotService:
         except Exception as e:
             logger.error(f"Error processing message: {e}")
             return ChatResponse(
-                response="Sorry, an error occurred while processing your message. Please try again.",
+                response="Hey there! There was a little error processing your message. But don't worry, try again and it should work!",
                 intent="error",
                 confidence=0.0
             )
